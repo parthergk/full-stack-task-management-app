@@ -22,9 +22,8 @@ app.use("/api/auth", authRoutes);
 // Authentication middleware 
 app.use((req, res, next) => {
     
-    if (req.originalUrl.startsWith('/api/auth')) {
-        
-        return next(); 
+    if (req.originalUrl.startsWith('/api/auth') || (req.originalUrl.startsWith('/api/menu') && req.method === 'GET')) {
+        return next();
     }
 
     const token = req.header('Authorization')?.replace('Bearer ', '');
