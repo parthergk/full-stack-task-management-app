@@ -1,10 +1,11 @@
 const express = require("express");
-const app = express();
+const router = express.Router();
 const dbConnect = require("../config/db");
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-app.post('/register', async (req, res) => {
+router.post('/register', async (req, res) => {
     const { username, password } = req.body;
     
     if (!username || !password) {
@@ -31,7 +32,7 @@ app.post('/register', async (req, res) => {
     }
 });
 
-app.post('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -59,3 +60,5 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ message: 'An error occurred during login' });
     }
 });
+
+module.exports = router;
