@@ -14,13 +14,14 @@ router.post('/order', async(req, res)=>{
     await dbConnect();
 
     try {
-        const allItems = await Menu.find({'_id': {$in: items.map(item=> item.allItemId)}})
+        const allItems = await Menu.find({'_id': {$in: items.map(item=> item.menuItemId)}})
+        
 
         const totalAmount = items.reduce((total, item) => {
             const menuItem = allItems.find(menuItem => menuItem._id.toString() === item.menuItemId);
             return total + (menuItem.price * item.quantity);
-        }, 0);
-
+        }, 0);        
+        
         // Create a new order
         const newOrder = new Order({
             userId,
@@ -38,12 +39,15 @@ router.post('/order', async(req, res)=>{
     }
 });
 
-router.get('/orders', async (req, res) => {
+router.get('/order', async (req, res) => {
     const { userId } = req.query;
 
     if (!userId) {
         return res.status(400).json({ message: "User ID is required" });
     }
+
+    await dbConnect();
+
 
     try {
         const orders = await Order.find({ userId }).populate('items.menuItemId');

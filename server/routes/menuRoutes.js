@@ -23,6 +23,8 @@ router.post('/menu', async (req, res) => {
         return res.status(400).json({ message: "Name, category, and price are required" });
     }
 
+    await dbConnect();
+
     try {
         const newItem = new Menu({ name, category, price, availability: true });
         await newItem.save();

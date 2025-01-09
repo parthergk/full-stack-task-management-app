@@ -1,6 +1,8 @@
 const express = require("express");
 const jwt = require('jsonwebtoken'); // Import jwt library
 const app = express();
+require('dotenv').config();
+
 const port = process.env.PORT || 5000;
 const dbConnect = require('./config/db');
 
@@ -19,6 +21,12 @@ app.use("/api/auth", authRoutes);
 
 // Authentication middleware 
 app.use((req, res, next) => {
+    
+    if (req.originalUrl.startsWith('/api/auth')) {
+        
+        return next(); 
+    }
+
     const token = req.header('Authorization')?.replace('Bearer ', '');
 
     if (!token) {
@@ -35,7 +43,7 @@ app.use((req, res, next) => {
     }
 });
 
-app.use("/api/menu", menuRoutes);
+app.use("/api/menus", menuRoutes);
 app.use("/api/orders", orderRoutes);
 
 app.listen(port, () => {
