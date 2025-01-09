@@ -4,7 +4,7 @@ const Menu = require("../models/Menu");
 const dbConnect = require("../config/db");
 
 // Fetch all menu items
-router.get('/menu', async (req, res) => {
+router.get('/', async (req, res) => {
     await dbConnect();
     try {
         const data = await Menu.find();
@@ -16,7 +16,7 @@ router.get('/menu', async (req, res) => {
 });
 
 // Add a new menu item
-router.post('/menu', async (req, res) => {
+router.post('/', async (req, res) => {
     const { name, category, price } = req.body;
 
     if (!name || !category || !price) {
@@ -37,7 +37,7 @@ router.post('/menu', async (req, res) => {
 });
 
 // Update a menu item
-router.put('/menu/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { name, category, price, availability } = req.body;
 
@@ -66,7 +66,7 @@ router.put('/menu/:id', async (req, res) => {
 });
 
 // Delete a menu item
-router.delete('/menu/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
 
     await dbConnect();

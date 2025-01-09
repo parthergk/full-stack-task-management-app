@@ -4,7 +4,7 @@ const dbConnect = require("../config/db");
 const Menu = require("../models/Menu");
 const Order = require("../models/Order");
 
-router.post('/order', async(req, res)=>{
+router.post('/', async(req, res)=>{
     const {userId, items} = req.body;
 
     if (!userId || !items) {
@@ -39,7 +39,7 @@ router.post('/order', async(req, res)=>{
     }
 });
 
-router.get('/order', async (req, res) => {
+router.get('/', async (req, res) => {
     const { userId } = req.query;
 
     if (!userId) {
